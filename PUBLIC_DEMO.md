@@ -6,7 +6,7 @@ This branch is a public-safe demonstration of a visual performance management bo
 - Live charts are rendered in the browser with Chart.js and remain editable through Data Studio.
 - The demo state is deterministic and can be rebuilt with `python scripts/build-public-demo.py`.
 - The first V2 load clears only legacy `vpm-*` browser storage before importing the public demo state.
-- The original V1 remains available on the repository's main branch.
+- The original V1 remains preserved in the separate private source repository; this public repository contains only the sanitized V2 demo.
 
 Run locally from the repository root:
 
