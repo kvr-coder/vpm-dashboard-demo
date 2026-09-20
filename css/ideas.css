@@ -1,0 +1,378 @@
+/* =====================================================================
+   VPM IDEAS TRACKER — CI & Ideas tab
+   ===================================================================== */
+
+/* ── Stage summary bar ─────────────────────────────────────────────── */
+.ideas-stage-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.ideas-stage-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+.ideas-stage-pill strong { font-weight: 700; }
+
+/* ── Add form ──────────────────────────────────────────────────────── */
+.ideas-add-form {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.ideas-add-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.ideas-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+    flex: 1;
+}
+.ideas-field-wide { flex: 2; min-width: 240px; }
+.ideas-field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.ideas-field input,
+.ideas-field textarea,
+.ideas-field select {
+    padding: 5px 9px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-family: inherit;
+}
+.ideas-field input:focus,
+.ideas-field textarea:focus,
+.ideas-field select:focus { outline: none; border-color: var(--accent); }
+.ideas-field textarea { resize: none; overflow: hidden; min-height: 52px; }
+
+.ideas-cat-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+}
+.ideas-check-lbl {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+}
+.ideas-check-lbl input { cursor: pointer; }
+
+.ideas-add-actions { display: flex; gap: 10px; }
+.ideas-submit-btn {
+    padding: 7px 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.ideas-submit-btn:hover { background: var(--accent-hover); }
+
+/* ── Table ─────────────────────────────────────────────────────────── */
+.ideas-table-wrap {
+    overflow-x: auto;
+    width: 100%;
+}
+.ideas-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    min-width: 1400px;
+}
+.ideas-table th {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 0.69rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 7px 8px;
+    border-bottom: 2px solid var(--border);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.ideas-table th:last-child { border-right: none; }
+.ideas-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text-primary);
+}
+.ideas-table td:last-child { border-right: none; }
+
+/* Column widths */
+.idea-col-id    { width: 40px;  text-align: center; }
+.idea-col-date  { width: 100px; white-space: nowrap; }
+.idea-col-title { min-width: 160px; }
+.idea-col-orig  { width: 100px; }
+.idea-col-desc  { min-width: 200px; }
+.idea-col-ben   { min-width: 160px; }
+.idea-col-cat   { width: 140px; }
+.idea-col-type  { width: 110px; }
+.idea-col-assign{ width: 100px; }
+.idea-col-plan  { min-width: 180px; }
+.idea-col-when  { width: 148px; }
+.idea-col-done  { width: 126px; }
+.idea-col-sign  { min-width: 130px; }
+.idea-col-stage { width: 160px; }
+.idea-col-rep   { width: 100px; }
+.idea-col-act   { width: 36px; text-align: center; }
+
+.idea-id-cell { text-align: center; font-weight: 700; color: var(--text-muted); }
+.ideas-empty  { text-align: center; color: var(--text-muted); font-style: italic; padding: 24px !important; }
+.idea-none    { color: var(--text-muted); }
+
+/* Long-text cells preserve line breaks and stay open after editing */
+.idea-cell-long {
+    white-space: pre-wrap;
+    min-height: 52px;
+    vertical-align: top;
+}
+
+/* ── Row stage colours — full first-cell background ─────────────────── */
+/* background-color on <td> works reliably in border-collapse tables.   */
+/* The # column becomes a solid colour swatch per stage.                */
+.ideas-row-stage-0 { opacity: 0.5; }
+.ideas-row-stage-0 td:first-child { background-color: #6b7280; color: #fff; }
+
+.ideas-row-stage-1 td:first-child { background-color: #3b82f6; color: #fff; }
+.ideas-row-stage-2 td:first-child { background-color: #f59e0b; color: #1a1000; }
+.ideas-row-stage-3 td:first-child { background-color: #a855f7; color: #fff; }
+.ideas-row-stage-4 { background-color: color-mix(in srgb, #22c55e 6%, transparent); }
+.ideas-row-stage-4 td:first-child { background-color: #22c55e; color: #052e16; }
+
+.ideas-row:hover td { background-color: rgba(255,255,255,0.03); }
+/* keep first-cell colour on hover for stage rows */
+.ideas-row-stage-1:hover td:first-child { background-color: #2563eb; }
+.ideas-row-stage-2:hover td:first-child { background-color: #d97706; }
+.ideas-row-stage-3:hover td:first-child { background-color: #9333ea; }
+.ideas-row-stage-4:hover { background-color: color-mix(in srgb, #22c55e 12%, transparent); }
+.ideas-row-stage-4:hover td:first-child { background-color: #16a34a; }
+
+/* ── Filter bar ─────────────────────────────────────────────────────── */
+.ideas-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-primary);
+}
+.ideas-filter-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+}
+.ideas-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.12s;
+    white-space: nowrap;
+}
+.ideas-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.ideas-filter-btn.ideas-filter-active {
+    border-color: currentColor;
+    font-weight: 700;
+    box-shadow: 0 0 0 1px currentColor inset;
+}
+/* All-button active state */
+.ideas-filter-btn-all.ideas-filter-active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+.ideas-filter-count {
+    font-weight: 700;
+    font-size: 0.72rem;
+}
+
+/* ── Stage badges (stage bar pills) ──────────────────────────────────── */
+.idea-stage-0 { background: color-mix(in srgb, #dc2626 15%, transparent); border-color: color-mix(in srgb, #dc2626 35%, transparent); color: #fca5a5; }
+.idea-stage-1 { background: color-mix(in srgb, #3b82f6 15%, transparent); border-color: color-mix(in srgb, #3b82f6 35%, transparent); color: #93c5fd; }
+.idea-stage-2 { background: color-mix(in srgb, #f59e0b 15%, transparent); border-color: color-mix(in srgb, #f59e0b 35%, transparent); color: #fcd34d; }
+.idea-stage-3 { background: color-mix(in srgb, #a855f7 15%, transparent); border-color: color-mix(in srgb, #a855f7 35%, transparent); color: #d8b4fe; }
+.idea-stage-4 { background: color-mix(in srgb, #22c55e 15%, transparent); border-color: color-mix(in srgb, #22c55e 35%, transparent); color: #86efac; }
+body.light-theme .idea-stage-0 { color: #b91c1c; }
+body.light-theme .idea-stage-1 { color: #1d4ed8; }
+body.light-theme .idea-stage-2 { color: #b45309; }
+body.light-theme .idea-stage-3 { color: #7c3aed; }
+body.light-theme .idea-stage-4 { color: #15803d; }
+
+/* ── Inline table inputs ───────────────────────────────────────────── */
+.idea-editable { cursor: pointer; }
+.idea-editable:hover { background: rgba(255,255,255,0.05); }
+
+.idea-inline-input {
+    width: 100%;
+    padding: 3px 6px;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.77rem;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+.idea-inline-ta { resize: none; overflow: hidden; min-height: 60px; }
+.idea-inline-input:focus { outline: none; }
+
+.idea-inline-sel {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.77rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+.idea-inline-sel:focus { outline: none; border-color: var(--accent); }
+.idea-stage-sel { font-size: 0.72rem; }
+
+/* Category tags */
+.idea-cat-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: var(--accent-dim);
+    color: var(--accent);
+    margin: 1px;
+    white-space: nowrap;
+}
+
+/* Delete button */
+.idea-del-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    line-height: 1;
+}
+.idea-del-btn:hover { background: var(--danger-dim); color: var(--danger); }
+
+/* ── Activity rows (When / Done multi-date cells) ───────────────────── */
+.idea-acts-cell { vertical-align: top; padding: 4px 4px; overflow: hidden; }
+
+.idea-acts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+.idea-act-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Activity label input */
+.idea-act-lbl-inp {
+    flex: 1;
+    min-width: 0;
+    padding: 2px 5px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.71rem;
+    font-family: inherit;
+}
+.idea-act-lbl-inp:focus { outline: none; border-color: var(--accent); }
+
+/* Date picker inputs */
+.idea-act-date-inp {
+    padding: 2px 3px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 0.71rem;
+    font-family: inherit;
+    width: 108px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.idea-act-date-inp:focus { outline: none; border-color: var(--accent); }
+
+/* Done date turns green when filled */
+.idea-act-done-inp { color: var(--text-muted); }
+.idea-act-done-filled { color: #22c55e !important; font-weight: 600; }
+body.light-theme .idea-act-done-filled { color: #15803d !important; }
+
+/* Remove-activity button */
+.idea-act-del {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 1px 4px;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.idea-act-del:hover { background: var(--danger-dim); color: var(--danger); }
+
+/* Add activity button */
+.idea-act-add {
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1px 0;
+    text-align: left;
+    opacity: 0.75;
+}
+.idea-act-add:hover { opacity: 1; text-decoration: underline; }

@@ -1,0 +1,256 @@
+/* =====================================================================
+   FEEDBACK TAB — Meeting Score Card
+   ===================================================================== */
+
+.fb-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 0; /* never above history panel */
+}
+.fb-page-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+}
+.fb-page-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Prominent save button */
+.fb-save-snap-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.35);
+    transition: background 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 0;
+}
+.fb-save-snap-btn:hover   { background: var(--accent-hover); box-shadow: 0 4px 14px rgba(59,130,246,0.45); }
+.fb-save-snap-btn:disabled { opacity: 0.75; cursor: default; }
+
+.fb-card { padding: 0; overflow: visible; } /* must NOT be hidden — kills position:sticky */
+
+/* ── Period selectors (month / year) ── */
+.fb-period-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.fb-period-select {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+.fb-period-select:focus { outline: none; border-color: var(--accent); }
+
+/* Single scroll container — handles BOTH axes so position:sticky on thead works */
+.fb-table-wrapper {
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: calc(100vh - 210px);
+    border-top: 1px solid var(--border);
+}
+
+/* Inner wrapper — must NOT set any overflow (would kill sticky) */
+.fb-scroll-wrap {
+    width: 100%;
+    min-width: 0;
+}
+
+/* ── Table ── */
+.feedback-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    table-layout: fixed;
+}
+.feedback-table th,
+.feedback-table td {
+    padding: 0;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+.feedback-table th:last-child,
+.feedback-table td:last-child { border-right: none; }
+
+/* Column widths */
+.fb-th-date,   .fb-td-date   { width: 120px; min-width: 100px; }
+.fb-th-rating, .fb-td-rating { width: 70px;  min-width: 60px; }
+.fb-th-text,   .fb-td-text   { min-width: 160px; }
+
+/* Header cells — sticky relative to .fb-table-wrapper (the ONE scroll container) */
+.feedback-table thead th {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px 6px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    line-height: 1.3;
+}
+.fb-th-date { text-align: left; padding-left: 12px; }
+.fb-th-text { text-align: left; padding-left: 8px; }
+
+/* ── Rows ── */
+.fb-row         { transition: background 0.1s; }
+.fb-row:hover   { background: rgba(255,255,255,0.03); }
+
+/* Future rows — locked & dimmed */
+.fb-row-future  { opacity: 0.3; pointer-events: none; }
+
+/* Weekend rows — dimmed, italic date, no colored rating cells */
+.fb-row-weekend { background: var(--bg-secondary); }
+.fb-row-weekend .fb-td-date { color: var(--text-muted); font-style: italic; font-weight: 400; }
+.fb-row-weekend .fb-td-rating { background: var(--bg-secondary) !important; cursor: default; }
+.fb-row-weekend .fb-td-text .fb-textarea { opacity: 0.5; }
+
+/* TODAY — must come AFTER weekend so it always wins, even on Sunday/Saturday */
+.fb-row-today.fb-row-weekend { pointer-events: auto; } /* re-enable clicks locked by weekend */
+.fb-row-today,
+.fb-row-today.fb-row-weekend {
+    background: color-mix(in srgb, var(--accent) 22%, transparent) !important;
+    box-shadow: inset 5px 0 0 var(--accent);
+}
+.fb-row-today:hover,
+.fb-row-today.fb-row-weekend:hover {
+    background: color-mix(in srgb, var(--accent) 30%, transparent) !important;
+}
+.fb-row-today .fb-td-date {
+    color: var(--accent) !important;
+    font-weight: 700 !important;
+    font-style: normal !important;
+}
+.fb-row-today .fb-td-rating[data-val=""] {
+    background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+    cursor: pointer !important;
+}
+
+/* ── Date cell ── */
+.fb-td-date {
+    padding: 8px 8px 8px 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.fb-today-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 999px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* ── Rating cells ── */
+.fb-td-rating {
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.12s;
+    vertical-align: middle;
+    height: 40px;
+    user-select: none;
+}
+.fb-td-rating:hover          { filter: brightness(1.12); }
+.fb-td-rating[data-val=""]       { background: var(--bg-tertiary); }
+.fb-td-rating[data-val="green"]  { background: #16a34a; }
+.fb-td-rating[data-val="red"]    { background: #dc2626; }
+.fb-td-rating[data-val="blue"]   { background: #1d4ed8; }
+.fb-td-rating[data-val="orange"] { background: #d97706; }
+
+/* ── Text cells ── */
+.fb-td-text { padding: 4px 6px; vertical-align: top; }
+.fb-textarea {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.77rem;
+    font-family: inherit;
+    line-height: 1.5;
+    padding: 6px 4px;
+    min-height: 32px;
+    box-sizing: border-box;
+    display: block;
+}
+.fb-textarea::placeholder { color: var(--text-muted); }
+.fb-textarea:focus { background: color-mix(in srgb, var(--accent) 6%, transparent); border-radius: 2px; }
+.fb-textarea:disabled { opacity: 0.4; }
+
+/* ── Alert banner (3+ consecutive red days) ── */
+.fb-alert {
+    margin: 10px 14px;
+    padding: 10px 16px;
+    background: color-mix(in srgb, #dc2626 12%, transparent);
+    border: 1px solid color-mix(in srgb, #dc2626 40%, transparent);
+    border-radius: var(--radius-sm);
+    color: #fca5a5;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+body.light-theme .fb-alert { color: #b91c1c; }
+
+/* ── Legend ── */
+.fb-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+}
+.fb-legend-item { display: flex; align-items: center; gap: 5px; }
+.fb-legend-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.fb-swatch-green  { background: #16a34a; }
+.fb-swatch-red    { background: #dc2626; }
+.fb-swatch-blue   { background: #1d4ed8; }
+.fb-swatch-orange { background: #d97706; }
+.fb-legend-sep   { color: var(--border); }
+.fb-legend-hint  { color: var(--text-muted); font-style: italic; }

@@ -1,0 +1,18 @@
+Save each URL to this folder with the filename shown:
+
+1. chart.umd.min.js
+   https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js
+
+2. xlsx.full.min.js
+   https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js
+
+3. Sortable.min.js
+   https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js
+
+4. inter.css  +  font files
+   https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap
+   (Open the URL, save as inter.css, then open inter.css and download each .woff2 URL
+    into this same vendor/ folder, updating the src paths in inter.css to be relative)
+
+Once all 4 are here the app runs fully offline — no internet needed.
+The index.html will fall back to the CDN versions if vendor files are missing.

@@ -1,0 +1,32 @@
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+
+# Backups & temp
+backups/
+*.bak
+*.tmp
+
+# Chrome File System Access API swap files
+*.crswap
+
+# OS / editor junk
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
